@@ -2,7 +2,7 @@ pressed = false
 
 function love.update(dt)
     if game.scene == "tetris" then piece(dt)
-    else pointer() end
+    elseif game.scene == "menu" then pointer() end
 end
 
 function love.keypressed(key)
@@ -64,6 +64,7 @@ function piece(dt)
 end
 
 function pointer()
+    if position ~= 35 and position ~= 235 then position = 35 end
     if pressed then
         if position == 35 then game.scene = "tetris"
         else pressed = false end

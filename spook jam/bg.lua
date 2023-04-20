@@ -1,10 +1,12 @@
 function love.draw()
     if game.scene == "tetris" then tetris()
-    else menu() end
+    elseif game.scene == "menu" then menu() 
+    else opening() end
 end
 
 function tetris()
     game.my_background = love.graphics.newImage('img/bg.jpg')
+    love.audio.play(game.music)
     love.graphics.setColor(1,1,1,1)
     love.graphics.draw(game.my_background)
     love.graphics.setColor(15/255,56/255,15/255)
@@ -39,4 +41,16 @@ function menu()
     game.pointer = love.graphics.newImage('img/pointer.png')
     love.graphics.draw(game.my_background)
     love.graphics.draw(game.pointer, position, 280)
+end
+
+function opening()
+    love.audio.play(game.sound)
+    game.my_background = love.graphics.newImage('img/op.png')
+    love.graphics.draw(game.my_background, 0, position)
+    if position < 0 then 
+        position = position + 1 
+    else 
+        game.position = 35
+        game.scene = "menu" 
+    end
 end
