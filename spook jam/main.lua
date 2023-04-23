@@ -6,7 +6,8 @@ game = {
     pointer = nil,
     sound = love.audio.newSource("snd/startup.mp3", "static"),
     music = love.audio.newSource("snd/cursed.mp3", "static"),
-    scene = "op"
+    scene = "op",
+    bg_color = {255, 0, 0}
 }
 
 gridXCount = 10
@@ -15,6 +16,8 @@ pieceXCount = 4
 pieceYCount = 4
 timerLimit = 0.5
 position = -250
+terror = 0
+changecolor = false
 
 require('tetris')
 require('bg')

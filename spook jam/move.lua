@@ -3,16 +3,17 @@ pressed = false
 function love.update(dt)
     if game.scene == "tetris" then piece(dt)
     elseif game.scene == "menu" then pointer() end
+    if terror > 24 then game.scene = "ending" end
 end
 
 function love.keypressed(key)
     if game.scene == "tetris" then
-        if key == 'x' then
+        if key == 'up' or key == 'z' then
             local testRotation = pieceRotation + 1
             if testRotation > #pieceStructures[pieceType] then testRotation = 1 end
             if canPieceMove(pieceX, pieceY, testRotation) then pieceRotation = testRotation end
 
-        elseif key == 'z' then
+        elseif key == 'down' or key == 'x' then
             local testRotation = pieceRotation - 1
             if testRotation < 1 then testRotation = #pieceStructures[pieceType] end
             if canPieceMove(pieceX, pieceY, testRotation) then pieceRotation = testRotation end
@@ -29,10 +30,11 @@ function love.keypressed(key)
             while canPieceMove(pieceX, pieceY + 1, pieceRotation) do
                 pieceY = pieceY + 1
                 timer = timerLimit
-            end
+            end 
         end
     else
         if key == 'left' or  key == 'right' then
+            changecolor = false
             if position == 35 then position = 235
             else position = 35 end
         else 
@@ -56,6 +58,7 @@ function piece(dt)
                     if block ~= ' ' then inert[pieceY + y][pieceX + x] = block end
                 end
             end
+            terror = terror + 1
             findCompleteRows()
             newPiece()
             if not canPieceMove(pieceX, pieceY, pieceRotation) then reset() end
@@ -66,7 +69,11 @@ end
 function pointer()
     if position ~= 35 and position ~= 235 then position = 35 end
     if pressed then
-        if position == 35 then game.scene = "tetris"
-        else pressed = false end
+        if position == 35 then 
+            game.scene = "tetris"
+        else 
+            changecolor = true
+            pressed = false 
+        end
     end
 end

@@ -1,5 +1,4 @@
 function love.load()
-    --sound = love.audio.newSource("snd/startup2.mp3", "static"),
     pieceStructures = {
         {
             {
@@ -143,10 +142,10 @@ function love.load()
                 {' ', ' ', ' ', ' '},
             },
             {
-                {'i', 'i', 'i', ' '},
                 {'i', ' ', 'i', ' '},
                 {' ', 'i', 'i', ' '},
                 {'i', ' ', 'i', ' '},
+                {'i', 'i', 'i', ' '},
             },
             {
                 {'i', ' ', 'i', 'i'},
@@ -195,6 +194,62 @@ function love.load()
                 {'i', 'i', 'i', 'i'},
             },
         },
+        {
+            {
+                {' ', 'i', 'i', ' '},
+                {' ', 'i', 'i', ' '},
+                {'i', ' ', ' ', 'i'},
+                {' ', 'i', 'i', ' '},
+            },
+        },
+        {
+            {
+                {'i', 'i', 'i', 'i'},
+                {' ', ' ', 'i', ' '},
+                {' ', 'i', ' ', ' '},
+                {'i', 'i', 'i', 'i'},
+            },
+            {
+                {'i', ' ', ' ', 'i'},
+                {'i', 'i', ' ', 'i'},
+                {'i', ' ', 'i', 'i'},
+                {'i', ' ', ' ', 'i'},
+            },
+        },
+        {
+            {
+                {'i', 'i', 'i', 'i'},
+                {'i', ' ', ' ', 'i'},
+                {'i', ' ', ' ', 'i'},
+                {'i', 'i', 'i', 'i'},
+            },
+        }, 
+        {
+            {
+                {' ', 'i', ' ', 'i'},
+                {' ', ' ', 'i', ' '},
+                {' ', ' ', 'i', ' '},
+                {' ', ' ', 'i', ' '},
+            },
+            {
+                {'i', ' ', ' ', ' '},
+                {' ', 'i', 'i', 'i'},
+                {'i', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' '},
+            },
+            {
+                {' ', ' ', 'i', ' '},
+                {' ', ' ', 'i', ' '},
+                {' ', ' ', 'i', ' '},
+                {' ', 'i', ' ', 'i'},
+            },
+            {
+                {' ', ' ', ' ', 'i'},
+                {'i', 'i', 'i', ' '},
+                {' ', ' ', 'i', 'i'},
+                {' ', ' ', ' ', ' '},
+            },
+        },
     }
 
     function canPieceMove(testX, testY, testRotation)
@@ -219,19 +274,21 @@ function love.load()
 
     function newSequence()
         sequence = {}
-        for pieceTypeIndex = 1, #pieceStructures do
-            local position = love.math.random(#sequence + 1)
-            table.insert(sequence,position,pieceTypeIndex)
+        for pieceTypeIndex = 1, #pieceStructures - 7 do
+            table.insert(sequence,love.math.random(#sequence + 1),pieceTypeIndex)
         end
     end
 
     function newPiece()
-        game.score = game.score + 1
         pieceX = 3
         pieceY = 0
         pieceRotation = 1
-        pieceType = table.remove(sequence)
-        if #sequence == 0 then newSequence() end
+        if terror < 3 then pieceType = terror + 8
+        elseif terror > 18 and terror < 22 then pieceType = terror - 8 
+        elseif terror == 22 or terror == 23 then pieceType = 8
+        elseif terror == 24 then pieceType = 14
+        else pieceType = table.remove(sequence) end
+        if #sequence == 3 then newSequence() end
     end
 
     function reset()
